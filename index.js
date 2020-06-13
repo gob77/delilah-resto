@@ -1,6 +1,7 @@
 const express = require("express");
 const body = require("body-parser");
 const auth = require("./auth");
+const sequelize = require("./db");
 const app = express();
 
 app.listen(3000, () => {
@@ -16,3 +17,5 @@ app.get("/seguro", auth.authenticateUser, (req, res) => {
 });
 
 app.post("/register", (req, res) => {});
+
+app.post("/api/newuser", sequelize.addUserToDB, (req, res) => {});

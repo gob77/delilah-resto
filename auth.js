@@ -3,6 +3,7 @@ var jwt = require("jsonwebtoken");
 const logUser = (req, res, next) => {
     try {
         const { usuario, contrasenia } = req.body;
+        console.log(usuario);
         const validado = checkUser(usuario, contrasenia);
         if (!validado) {
             res.json({
