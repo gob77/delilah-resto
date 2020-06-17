@@ -1,20 +1,18 @@
-const { sequelize } = require("../db");
+const { sequelize } = require("../db.config");
+const Orders = require("./Orders.model");
 
 module.exports = (sequelize, type) => {
     return sequelize.define(
-        "user",
+        "product",
         {
             id: {
                 type: type.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,
             },
-            username: type.STRING,
             name: type.STRING,
-            phone: type.STRING,
-            address: type.STRING,
-            password: type.STRING,
-            isAdmin: type.BOOLEAN,
+            price: type.STRING,
+            description: type.STRING,
         },
         {
             timestamps: false,
