@@ -1,11 +1,10 @@
-const { sequelize } = require("../db.config");
-const Orders = require("./Orders.model");
+/* const { sequelize } = require("../db.config"); */
 
 module.exports = (sequelize, type) => {
     return sequelize.define(
         "product",
         {
-            id: {
+            productID: {
                 type: type.INTEGER,
                 primaryKey: true,
                 autoIncrement: true,

@@ -15,9 +15,30 @@ const User = UsersModel(sequelize, Sequelize);
 const Product = ProductModel(sequelize, Sequelize);
 const Order = OrdersModel(sequelize, Sequelize);
 
-Order.hasMany(Product);
-Product.belongsTo(Order);
+Order.belongsToMany(Product, {
+    through: "orderProducts",
+    foreignKey: "productID",
+    sourceKey: "orderID",
+});
+
+Product.belongsToMany(Order, {
+    through: "orderProducts",
+    foreignKey: "orderID",
+    sourceKey: "productID",
+});
+
+User.belongsToMany(Order, {
+    through: "userorder",
+    foreignKey: "orderID",
+    sourceKey: "userID",
+});
+
+Order.belongsTo(User, {
+    through: "userorder",
+    foreignKey: "userID",
+    sourceKey: "orderID",
+});
 
 sequelize.sync({ force: false }).then(() => console.log("tablas creadas"));
 
-module.exports = { User, Product, sequelize };
+module.exports = { User, Product, Order, sequelize };

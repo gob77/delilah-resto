@@ -12,7 +12,7 @@ const addUserToDB = async (req, res) => {
             password,
             isAdmin,
         }).then((users) => {
-            res.send("added to DB");
+            res.send(`Se agrego el usuario: ${username} a la base de datos con el id ${users.id}`);
         });
     } catch (err) {
         res.json({
@@ -21,7 +21,7 @@ const addUserToDB = async (req, res) => {
     }
 };
 
-const logUser = async (req, res) => {
+const logUser = async (req, res, next) => {
     const { username, password } = req.body;
     try {
         const validado = await checkUser(username, password);
@@ -34,6 +34,8 @@ const logUser = async (req, res) => {
             const token = jwt.sign(
                 {
                     username,
+                    id: validado.id,
+                    address: validado.address,
                     isAdmin: validado.isAdmin,
                 },
                 secret
@@ -41,6 +43,7 @@ const logUser = async (req, res) => {
 
             res.json({ token });
         }
+        next();
     } catch (error) {
         res.send("error");
     }
@@ -57,6 +60,8 @@ const getUserFromDB = async (req, res, next) => {
 const checkUser = async (a, b) => {
     const foundIt = await User.findOne({ where: { username: `${a}` } });
 
+    console.log(foundIt.username);
+
     if (foundIt.password != b) {
         return false;
     }
@@ -64,6 +69,8 @@ const checkUser = async (a, b) => {
 };
 
 const authenticateUser = (req, res, next) => {
+    console.log(req.originalUrl);
+
     try {
         const token = req.headers.authorization.split(" ")[1];
         const checkToken = jwt.verify(token, secret);
@@ -72,10 +79,12 @@ const authenticateUser = (req, res, next) => {
             return next();
         }
     } catch (err) {
-        console.error(err);
-        res.send("error");
+        res.status(401);
+        res.send("Ud no tiene autorizacion para realizar esta accion");
     }
 };
+
+const isAdmin = (req, res, next) => {};
 
 const secret = "e2emrtwrdDeLiLah*";
 

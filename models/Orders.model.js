@@ -1,19 +1,14 @@
-const { sequelize } = require("../db.config");
-const products = require("./Products.model");
+/* const { sequelize } = require("../db.config"); */
 
 module.exports = (sequelize, type) => {
-    return sequelize.define(
-        "order",
-        {
-            id: {
-                type: type.INTEGER,
-                primaryKey: true,
-                autoIncrement: true,
-            },
-            description: type.STRING,
+    return sequelize.define("order", {
+        orderID: {
+            type: type.INTEGER,
+            primaryKey: true,
+            autoIncrement: true,
         },
-        {
-            timestamps: false,
-        }
-    );
+        detail: type.STRING,
+        payment: type.STRING,
+        address: type.STRING,
+    });
 };

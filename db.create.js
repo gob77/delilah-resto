@@ -1,6 +1,5 @@
 const Sequelize = require("sequelize");
 const mysql = require("mysql2");
-/* const dbconnection = require("./db.config"); */
 
 console.log("A CONTINUACION SE CREARA LA BASE DE DATOS");
 
