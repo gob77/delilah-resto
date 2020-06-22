@@ -9,9 +9,9 @@ const newOrder = (req, res) => {
     const checkToken = jwt.verify(token, secret);
 
     detail.forEach(async (index) => {
-        const product = await Product.findOne({ where: { productID: `${index}` } });
+        const prodID = await Product.findOne({ where: { id: `${index}` } });
         const newOrder = await Order.create({
-            productID: product.productID,
+            productID: prodID.productID,
             payment,
             address: checkToken.address,
             userId: checkToken.id,
