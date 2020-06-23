@@ -17,26 +17,15 @@ const Order = OrdersModel(sequelize, Sequelize);
 
 Order.belongsToMany(Product, {
     through: "orderProducts",
-    foreignKey: "id",
+});
+
+Order.belongsTo(User, {
+    foreingKey: "user_ID",
     sourceKey: "id",
 });
 
 Product.belongsToMany(Order, {
     through: "orderProducts",
-    foreignKey: "id",
-    sourceKey: "id",
-});
-
-User.belongsToMany(Order, {
-    through: "userorder",
-    foreignKey: "id",
-    sourceKey: "id",
-});
-
-Order.belongsTo(User, {
-    through: "userorder",
-    foreignKey: "id",
-    sourceKey: "id",
 });
 
 sequelize.sync({ force: false }).then(() => console.log("tablas creadas"));

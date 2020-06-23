@@ -14,9 +14,9 @@ const newProduct = async (req, res) => {
         name,
         price,
         description,
-    }).then((newProduct) => {
-        res.send("se agrego el producto a la db");
     });
+
+    res.send("se agrego a la db");
 };
 
 const updateProduct = async (req, res) => {
@@ -36,8 +36,18 @@ const updateProduct = async (req, res) => {
     res.send("updated");
 };
 
+const deleteProduct = async (req, res) => {
+    const productID = req.params.id;
+    const deleteProduct = await Product.destroy({
+        where: {
+            id: productID,
+        },
+    });
+};
+
 module.exports = {
     getProducts,
     newProduct,
     updateProduct,
+    deleteProduct,
 };

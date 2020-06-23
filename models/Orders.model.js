@@ -7,8 +7,10 @@ module.exports = (sequelize, type) => {
             primaryKey: true,
             autoIncrement: true,
         },
-        detail: type.STRING,
+        state: type.STRING,
         payment: type.STRING,
         address: type.STRING,
+        total: type.INTEGER,
+        /* user_ID: type.INTEGER, */
     });
 };
