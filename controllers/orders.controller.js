@@ -4,7 +4,7 @@ const jwt = require("jsonwebtoken");
 const productsController = require("./products.controller");
 
 const newOrder = async (req, res) => {
-    const { detail, payment, address } = req.body;
+    const { detail, payment, address, total } = req.body;
     const token = req.headers.authorization.split(" ")[1];
     const secret = "e2emrtwrdDeLiLah*";
     const checkToken = jwt.verify(token, secret);
@@ -14,7 +14,7 @@ const newOrder = async (req, res) => {
         payment,
         address: checkToken.address,
         userID: checkToken.id,
-        total: await getTotalPrice(detail),
+        total,
     };
 
     console.log(order);
@@ -31,33 +31,43 @@ const newOrder = async (req, res) => {
     res.send("se crearon las ordenes");
 };
 
-const getTotalPrice = async (arr) => {
-    let price = 0;
-    arr.forEach(async (index) => {
-        const getProduct = Product.findOne({ where: { id: `${index}` } });
-        price += getProduct.price;
-    });
-    return price;
-};
-
 const updateStateOrder = async (req, res) => {
-    const orderID = req.params.id;
-    const { data } = req.body.price;
-    const updated = await Product.update(
-        { state: data },
-        {
-            where: {
-                id: orderID,
-            },
-        }
-    ).then((data) => {
-        console.log("updated");
-    });
+    let isAdmin = req.usuario.isAdmin;
 
+    if (!isAdmin) {
+        res.send("Ud no tiene autorizacion para realizar esta accion");
+    }
+    const orderID = req.params.id;
+    const data = req.body.state;
+
+    const updated = await Order.update(
+        {
+            state: `${data}`,
+        },
+        {
+            where: { id: `${orderID}` },
+        }
+    );
     res.send("updated");
 };
 
-module.exports = { newOrder, updateStateOrder };
+const deleteOrder = async (req, res) => {
+    let isAdmin = req.usuario.isAdmin;
+
+    if (!isAdmin) {
+        res.send("Ud no tiene autorizacion para realizar esta accion");
+    }
+
+    const orderID = req.params.id;
+    const deleteOrder = await Order.destroy({
+        where: {
+            id: orderID,
+        },
+    });
+    res.send("Se elemino el pedido");
+};
+
+module.exports = { newOrder, updateStateOrder, deleteOrder };
 
 /* {
         payment,
