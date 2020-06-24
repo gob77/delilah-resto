@@ -1,7 +1,7 @@
 /* const db = require("../db.config"); */
-const { Order, Product, User } = require("../db.config");
+const { Order, Product } = require("../db.config");
 const jwt = require("jsonwebtoken");
-const productsController = require("./products.controller");
+const { isAdmin } = require("./users.controller");
 
 const newOrder = async (req, res) => {
     const { detail, payment, address, total } = req.body;
@@ -32,11 +32,8 @@ const newOrder = async (req, res) => {
 };
 
 const updateStateOrder = async (req, res) => {
-    let isAdmin = req.usuario.isAdmin;
+    isAdmin(req.usuario);
 
-    if (!isAdmin) {
-        res.send("Ud no tiene autorizacion para realizar esta accion");
-    }
     const orderID = req.params.id;
     const data = req.body.state;
 
@@ -52,11 +49,7 @@ const updateStateOrder = async (req, res) => {
 };
 
 const deleteOrder = async (req, res) => {
-    let isAdmin = req.usuario.isAdmin;
-
-    if (!isAdmin) {
-        res.send("Ud no tiene autorizacion para realizar esta accion");
-    }
+    isAdmin(req.usuario);
 
     const orderID = req.params.id;
     const deleteOrder = await Order.destroy({

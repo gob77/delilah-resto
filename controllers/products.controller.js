@@ -1,5 +1,6 @@
 /* const db = require("../db.config"); */
 const { Product } = require("../db.config");
+const { isAdmin } = require("./users.controller");
 
 const getProducts = async (req, res) => {
     const products = await Product.findAll();
@@ -9,11 +10,8 @@ const getProducts = async (req, res) => {
 };
 
 const newProduct = async (req, res) => {
-    let isAdmin = req.usuario.isAdmin;
+    isAdmin(req.usuario);
 
-    if (!isAdmin) {
-        res.send("Ud no tiene autorizacion para realizar esta accion");
-    }
     const { name, price, description } = req.body;
     const newProduct = await Product.create({
         name,
@@ -25,11 +23,8 @@ const newProduct = async (req, res) => {
 };
 
 const updateProduct = async (req, res) => {
-    let isAdmin = req.usuario.isAdmin;
+    isAdmin(req.usuario);
 
-    if (!isAdmin) {
-        res.send("Ud no tiene autorizacion para realizar esta accion");
-    }
     const productID = req.params.id;
     const { data } = req.body.price;
     const updated = await Product.update(
@@ -47,11 +42,7 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-    let isAdmin = req.usuario.isAdmin;
-
-    if (!isAdmin) {
-        res.send("Ud no tiene autorizacion para realizar esta accion");
-    }
+    isAdmin(req.usuario);
     const productID = req.params.id;
     const deleteProduct = await Product.destroy({
         where: {
