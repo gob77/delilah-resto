@@ -64,7 +64,7 @@ y devuelve un status: 200 junto con un mensaje indicando que se agrego el usuari
 
 Realizando una peticion de tipo GET al endpoint:
 
-````
+```
 /api/users
 ```
 
@@ -224,7 +224,6 @@ Para eliminar una orden se debera enviar el token de administrado y el tipo de p
 /api/order/:id
 ```
 
-
 ###Token
 
 Los token sirven para autenticar y autorizar a los usuarios.
@@ -242,4 +241,3 @@ Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9ha2Vuc2hpZWxkIiwi
 ```
 
 ###Mauricio Ortiz
-````
