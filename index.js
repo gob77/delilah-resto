@@ -1,7 +1,7 @@
 const express = require("express");
 const body = require("body-parser");
 const app = express();
-const { addUserToDB, checkUser, authenticateUser, logUser, getUserFromDB } = require("./controllers/users.controller");
+const { addUserToDB, authenticateUser, logUser, getUserFromDB, isAdmin } = require("./controllers/users.controller");
 const { getProducts, newProduct, updateProduct, deleteProduct } = require("./controllers/products.controller");
 const { newOrder, updateStateOrder, deleteOrder } = require("./controllers/orders.controller");
 
@@ -13,47 +13,19 @@ app.use(body.json());
 
 /* Users endpoint */
 
-app.get("/api/users", authenticateUser, getUserFromDB, (req, res) => {});
+app.get("/api/users", authenticateUser, isAdmin, getUserFromDB, (req, res) => {});
 app.post("/api/register", addUserToDB, (req, res) => {});
 app.post("/login", logUser, (req, res) => {});
 
 /* products endpoints */
 
 app.get("/api/products", getProducts, (req, res) => {});
-app.post("/api/products", authenticateUser, newProduct, (req, res) => {});
-app.patch("/api/products/:id", authenticateUser, updateProduct, (req, res) => {});
-app.delete("/api/products/:id", authenticateUser, deleteProduct, (req, res) => {});
+app.post("/api/products", authenticateUser, isAdmin, newProduct, (req, res) => {});
+app.patch("/api/products/:id", authenticateUser, isAdmin, updateProduct, (req, res) => {});
+app.delete("/api/products/:id", authenticateUser, isAdmin, deleteProduct, (req, res) => {});
 
 /* Order endpoints */
 
 app.post("/api/order", newOrder, (req, res) => {});
-app.patch("/api/order/:id", authenticateUser, updateStateOrder, (req, res) => {});
-app.delete("/api/order/:id", authenticateUser, deleteOrder, (req, res) => {});
-
-/* Orders endpoint */
-
-/* pedidoID = {
-    usuarioID: {
-        producto1: {
-            productoID,
-            precio,
-        },
-        producto2: {
-            productoID,
-            precio,
-        },
-        producto3: {
-            productoID,
-            precio,
-        },
-    }
-} 
-
-
-forma de pago
-usuario
-productos
-total
-
-
-*/
+app.patch("/api/order/:id", authenticateUser, isAdmin, updateStateOrder, (req, res) => {});
+app.delete("/api/order/:id", authenticateUser, isAdmin, deleteOrder, (req, res) => {});

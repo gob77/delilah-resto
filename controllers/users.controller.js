@@ -50,8 +50,6 @@ const logUser = async (req, res, next) => {
 };
 
 const getUserFromDB = async (req, res, next) => {
-    isAdmin(req.usuario);
-
     let getUser = await User.findAll();
     res.json({
         users: getUser,
@@ -69,7 +67,6 @@ const checkUser = async (a, b) => {
 };
 
 const authenticateUser = (req, res, next) => {
-    console.log("se esta ejecutando la busqueda");
     try {
         const token = req.headers.authorization.split(" ")[1];
         const checkToken = jwt.verify(token, secret);
@@ -83,12 +80,14 @@ const authenticateUser = (req, res, next) => {
     }
 };
 
-const isAdmin = (token) => {
-    let isAdmin = token.isAdmin;
+const isAdmin = (req, res, next) => {
+    let isAdmin = req.usuario.isAdmin;
 
     if (!isAdmin) {
+        res.status(403);
         res.send("Ud no tiene autorizacion para realizar esta accion");
     }
+    next();
 };
 
 const secret = "e2emrtwrdDeLiLah*";

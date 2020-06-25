@@ -1,6 +1,5 @@
 /* const db = require("../db.config"); */
 const { Product } = require("../db.config");
-const { isAdmin } = require("./users.controller");
 
 const getProducts = async (req, res) => {
     const products = await Product.findAll();
@@ -10,45 +9,44 @@ const getProducts = async (req, res) => {
 };
 
 const newProduct = async (req, res) => {
-    isAdmin(req.usuario);
-
     const { name, price, description } = req.body;
     const newProduct = await Product.create({
         name,
         price,
         description,
     });
-
-    res.send("se agrego a la db");
+    res.status(200);
+    res.send("Se agrego el producto a la base de datos");
 };
 
 const updateProduct = async (req, res) => {
-    isAdmin(req.usuario);
-
     const productID = req.params.id;
-    const { data } = req.body.price;
+    const data = req.body;
+    console.log(productID);
+    console.log(data);
+
     const updated = await Product.update(
-        { price: data },
+        {
+            price: data.price,
+        },
         {
             where: {
-                id: productID,
+                id: `${productID}`,
             },
         }
-    ).then((data) => {
-        console.log("updated");
-    });
-
-    res.send("updated");
+    );
+    res.status(200);
+    res.send("Se actualizo el producto");
 };
 
 const deleteProduct = async (req, res) => {
-    isAdmin(req.usuario);
     const productID = req.params.id;
     const deleteProduct = await Product.destroy({
         where: {
             id: productID,
         },
     });
+    res.status(200);
     res.send("Se elemino el producto");
 };
 

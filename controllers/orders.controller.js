@@ -1,7 +1,6 @@
 /* const db = require("../db.config"); */
 const { Order, Product } = require("../db.config");
 const jwt = require("jsonwebtoken");
-const { isAdmin } = require("./users.controller");
 
 const newOrder = async (req, res) => {
     const { detail, payment, address, total } = req.body;
@@ -32,8 +31,6 @@ const newOrder = async (req, res) => {
 };
 
 const updateStateOrder = async (req, res) => {
-    isAdmin(req.usuario);
-
     const orderID = req.params.id;
     const data = req.body.state;
 
@@ -45,25 +42,19 @@ const updateStateOrder = async (req, res) => {
             where: { id: `${orderID}` },
         }
     );
-    res.send("updated");
+    res.status(200);
+    res.send("Se actualizo el pedido");
 };
 
 const deleteOrder = async (req, res) => {
-    isAdmin(req.usuario);
-
     const orderID = req.params.id;
     const deleteOrder = await Order.destroy({
         where: {
             id: orderID,
         },
     });
+    res.status(200);
     res.send("Se elemino el pedido");
 };
 
 module.exports = { newOrder, updateStateOrder, deleteOrder };
-
-/* {
-        payment,
-        address: checkToken.address,
-        userId: checkToken.id,
-    } */
