@@ -67,6 +67,7 @@ Realizando una peticion de tipo GET al endpoint:
 ````
 /api/users
 ```
+
 Un usuario con roles de administrado podra ver un listado de todos los usuarios registrado, el serivor devolvera una respuesta con status: 200 y un JSON con un array de usuarios registrados.
 
 ```
@@ -131,7 +132,9 @@ Para obtener un listado de los productos disponibles se debe realizar una petici
 ```
 /api/products
 ```
+
 Devolvera un objeto listando los productos que estan a disposicion de los clientes.
+
 ```
 {
     "products": [
@@ -158,6 +161,7 @@ Para agregar un nuevo producto se debera enviar una peticion POST al endpoint.
 ```
 /api/products
 ```
+
 se debera enviar en la cabecera de la peticion, el token correspondiente a un usuario administrador y un objeto json con los datos del producto a agregar, de la siguiente manera.
 
 ```
@@ -228,6 +232,7 @@ Los token sirven para autenticar y autorizar a los usuarios.
 ```
 eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9ha2Vuc2hpZWxkIiwiaWQiOjEsImFkZHJlc3MiOiJNaWRkbGUgRWFydGgiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1OTMwNzg2NTB9.Dbt5mRF6iB42Z8T9gmKxpeKwtGbJgk7oevGZ7NIfqnY
 ```
+
 Dentro del mismo se encuentran los datos del usuario necesarios para las acciones mencionadas en los puntos anteriores.
 
 Durante la etapa de desarrollo se utilizo Postman para el testeo de lo endpoints y la forma de enviar el token en el header de la peticion es bajo la key authorization y el valor es:
@@ -235,5 +240,6 @@ Durante la etapa de desarrollo se utilizo Postman para el testeo de lo endpoints
 ```
 Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZSI6Im9ha2Vuc2hpZWxkIiwiaWQiOjEsImFkZHJlc3MiOiJNaWRkbGUgRWFydGgiLCJpc0FkbWluIjp0cnVlLCJpYXQiOjE1OTMwNzg2NTB9.Dbt5mRF6iB42Z8T9gmKxpeKwtGbJgk7oevGZ7NIfqnY
 ```
+
 ###Mauricio Ortiz
 ````
