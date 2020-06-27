@@ -3,25 +3,22 @@ const { Order, Product } = require("../db.config");
 const jwt = require("jsonwebtoken");
 
 const newOrder = async (req, res) => {
-    const { detail, payment, address, total } = req.body;
-    const token = req.headers.authorization.split(" ")[1];
-    const secret = "e2emrtwrdDeLiLah*";
-    const checkToken = jwt.verify(token, secret);
+    const { detail, payment, total } = req.body;
+    const { userID, address } = req.usuario;
 
     let order = {
         state: "pending",
         payment,
-        address: checkToken.address,
-        userID: checkToken.id,
+        address,
+        userID,
         total,
     };
 
-    console.log(order);
     const createOrder = await Order.create(order).then((order) => {
         detail.forEach(async (index) => {
             try {
-                const product = await Product.findOne({ where: { id: `${index}` } });
-                product.addOrder(order);
+                const getProduct = await Product.findOne({ where: { id: `${index}` } });
+                getProduct.addOrder(order);
             } catch (error) {
                 console.log(error);
             }

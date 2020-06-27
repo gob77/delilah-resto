@@ -26,6 +26,6 @@ app.delete("/api/products/:id", authenticateUser, isAdmin, deleteProduct, (req, 
 
 /* Order endpoints */
 
-app.post("/api/order", newOrder, (req, res) => {});
+app.post("/api/order", authenticateUser, newOrder, (req, res) => {});
 app.patch("/api/order/:id", authenticateUser, isAdmin, updateStateOrder, (req, res) => {});
 app.delete("/api/order/:id", authenticateUser, isAdmin, deleteOrder, (req, res) => {});

@@ -10,13 +10,18 @@ const getProducts = async (req, res) => {
 
 const newProduct = async (req, res) => {
     const { name, price, description } = req.body;
-    const newProduct = await Product.create({
-        name,
-        price,
-        description,
-    });
-    res.status(200);
-    res.send("Se agrego el producto a la base de datos");
+    try {
+        const newProduct = await Product.create({
+            name,
+            price,
+            description,
+        }).then((data) => {
+            res.send("Se agrego el producto a la base de datos");
+            res.status(200);
+        });
+    } catch (error) {
+        console.log(error);
+    }
 };
 
 const updateProduct = async (req, res) => {

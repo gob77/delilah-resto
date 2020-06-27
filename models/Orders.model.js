@@ -11,6 +11,6 @@ module.exports = (sequelize, type) => {
         payment: type.STRING,
         address: type.STRING,
         total: type.INTEGER,
-        /* user_ID: type.INTEGER, */
+        user_ID: type.INTEGER,
     });
 };
