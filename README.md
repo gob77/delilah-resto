@@ -208,6 +208,18 @@ Para agregar una nueva orden se debera enviar una peticion POST junto con el tok
 api/order
 ```
 
+Se debera enviar un objeto JSON con el siguiente formato:
+
+```
+{
+    "detail": [1,2,3],
+    "payment": "cash",
+    "total": "600"
+}
+```
+
+donde detail es un array de id de productos y el total es el resultado de la suma de los precios de los productos.
+
 **Actualizar el estado de una orden (solo administradores)**
 
 Se debera enviar una peticion PATCH junto con el token de administrado el endpoint, y en la url el id de la orden que se quiere modificar
